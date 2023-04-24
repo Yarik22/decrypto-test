@@ -1,0 +1,15 @@
+Auth module
+ - JWT -
+ - Mail activation -
+ - Roles -
+ - CRUD +-
+Message module
+ - Encoding & Decoding - 
+ - User relationship -
+ - CRUD +-
+Validation
+ - Message dto +-
+ - User dto +-
+Swagger
+ - Documentation +-
+
