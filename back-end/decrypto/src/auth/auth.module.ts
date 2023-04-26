@@ -5,6 +5,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { Token } from './entities/token.entity';
 import { UsersModule } from 'src/users/users.module';
 import { AuthController } from './auth.controller';
+import { MailsModule } from 'src/mails/mails.module';
 
 @Module({
   controllers: [AuthController],
@@ -12,6 +13,7 @@ import { AuthController } from './auth.controller';
   imports:[
     TypeOrmModule.forFeature([Token]),
     JwtModule,
+    MailsModule,
     forwardRef(()=>UsersModule),
   ],
   exports:[

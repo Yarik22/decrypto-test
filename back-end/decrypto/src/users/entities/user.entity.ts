@@ -8,6 +8,10 @@ interface IUser{
     name:string
     hashedPassword:string
     email:string
+    activationLink:string
+    isActivated:boolean
+    banReason:string
+    isBanned:boolean
     token:Token
 }
 @Entity()
@@ -54,5 +58,10 @@ export class User implements IUser {
             default:false
         }
     )
-    isActivated:string
+    isActivated:boolean
+    @Column({
+        nullable:true
+    })
+    activationLink:string
+
 }

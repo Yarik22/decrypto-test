@@ -11,7 +11,8 @@ import { UsersController } from './users/users.controller';
 @Module({
   imports: [UsersModule, MessagesModule, AuthModule,
     ConfigModule.forRoot({
-      isGlobal: true,
+      isGlobal:true,
+      envFilePath: ['.env'],
     }),
     TypeOrmModule.forRoot(
       {
@@ -36,6 +37,7 @@ export class AppModule implements NestModule {
       .exclude(
         { path: 'auth/registration', method: RequestMethod.POST },
         { path: 'auth/login', method: RequestMethod.POST },
+        { path: 'auth/activate/:link', method: RequestMethod.GET },
       )
       .forRoutes('*');
   }

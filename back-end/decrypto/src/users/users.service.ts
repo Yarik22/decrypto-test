@@ -15,8 +15,8 @@ export class UsersService {
     private readonly authService:AuthService
   ){}
 
-  async findUserByEmail(email:string):Promise<User>{
-    return await this.userRepository.findOne({where:{email},relations:['token']})
+  async findUserByEmail(email:string, relations?:string[]):Promise<User>{
+    return await this.userRepository.findOne({where:{email},relations})
   }
 
 //CRUD
@@ -30,17 +30,19 @@ export class UsersService {
       throw new HttpException("This email is already exist",HttpStatus.CONFLICT)
     }
     const hashedPassword = await this.hashPassword(data.password)
-    const user = this.userRepository.create({...data,hashedPassword})
-    await this.userRepository.save(user)
-    await this.authService.saveToken(user.id)
-    return await this.findUserByEmail(user.email)
+    return this.userRepository.create({...data,hashedPassword})
   }
+
+  async save(user:User):Promise<User> {
+    return await this.userRepository.save(user)
+  }
+
   findAll() {
     return `This action returns all users`;
   }
 
-  async findOne(id: string):Promise<User> {
-    const user = await this.userRepository.findOne({where:{id}})
+  async findOne(id: string, relations?:string[]):Promise<User> {
+    const user = await this.userRepository.findOne({where:{id},relations})
     return user
   }
 
@@ -51,4 +53,10 @@ export class UsersService {
   remove(id: number) {
     return `This action removes a #${id} user`;
   }
+
+  async getUserByActivasionLink(activationLink:string,relations?:string[]){
+    const user = await this.userRepository.findOne({where:{activationLink}})
+    return user
+}
+
 }

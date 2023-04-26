@@ -1,2 +1,4 @@
-Unleash synchronization
+Unleash synchronization 
 Fix config in data source and add migrations
+Fix global .env (validateAccessToken do not see token)
+Delete accessToken from DB +
