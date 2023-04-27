@@ -1,6 +1,5 @@
 import { HttpException, HttpStatus, Inject, Injectable, forwardRef } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
-import { UpdateUserDto } from './dto/update-user.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from './entities/user.entity';
 import { Repository } from 'typeorm';
@@ -19,7 +18,6 @@ export class UsersService {
     return await this.userRepository.findOne({where:{email},relations})
   }
 
-//CRUD
   async hashPassword(password:string):Promise<string>{
     const salt = await bcrypt.genSalt()
     return await bcrypt.hash(password,salt)
@@ -37,22 +35,16 @@ export class UsersService {
     return await this.userRepository.save(user)
   }
 
-  findAll() {
-    return `This action returns all users`;
-  }
 
   async findOne(id: string, relations?:string[]):Promise<User> {
     const user = await this.userRepository.findOne({where:{id},relations})
+    console.log(user)
+    if(!user){
+      throw new HttpException("This user is no such user",HttpStatus.NOT_FOUND)
+    }
     return user
   }
 
-  update(id: number, data: UpdateUserDto) {
-    return `This action updates a #${id} user`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} user`;
-  }
 
   async getUserByActivasionLink(activationLink:string,relations?:string[]){
     const user = await this.userRepository.findOne({where:{activationLink}})

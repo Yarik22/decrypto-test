@@ -18,13 +18,6 @@ export interface Tokens{
 
 @Injectable()
 export class AuthService {
-    // async activateUser(activationUUID:string){
-    //     const user = await this.usersService.getUserByActivasionLink(activationUUID)
-    //     if(!user){
-    //         throw new HttpException("No such user found",HttpStatus.BAD_REQUEST)
-    //     }
-    //     return await this.usersService.activateUser(user.id)
-    // }
 
     constructor(
         private readonly jwtService:JwtService,

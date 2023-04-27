@@ -2,6 +2,7 @@ import { ApiProperty } from "@nestjs/swagger"
 import { User } from "src/users/entities/user.entity"
 import { Entity, Column, PrimaryGeneratedColumn, BeforeInsert, OneToOne, JoinColumn } from "typeorm"
 export interface IToken{
+    id:string
     refreshToken:string
     user:User
     // accessToken:string

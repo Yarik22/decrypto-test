@@ -1,7 +1,8 @@
 import { ApiProperty } from "@nestjs/swagger"
-import { Entity, Column, PrimaryGeneratedColumn, BeforeInsert, JoinColumn, OneToOne } from "typeorm"
+import { Entity, Column, PrimaryGeneratedColumn, BeforeInsert, JoinColumn, OneToOne, OneToMany } from "typeorm"
 import * as bcrypt from "bcrypt"
 import { Token } from "src/auth/entities/token.entity"
+import { Message } from "src/messages/entities/message.entity"
 
 interface IUser{
     id:string
@@ -33,9 +34,6 @@ export class User implements IUser {
         }
     )
     email:string
-    @ApiProperty({example:"jfjDKdsfg5453gGEgj456Fjgjj554ugjHFFiih5fg3245",description:"User's jwt token"})
-    @OneToOne(type=>Token,token=>token.user)
-    token:Token
     @ApiProperty({example:true,description:"Is user banned"})
     @Column(
         {
@@ -64,4 +62,10 @@ export class User implements IUser {
     })
     activationLink:string
 
+    @OneToMany(type=>Message,messsage=>messsage.user)
+    messages:Message[]
+
+    @ApiProperty({example:"jfjDKdsfg5453gGEgj456Fjgjj554ugjHFFiih5fg3245",description:"User's jwt token"})
+    @OneToOne(type=>Token,token=>token.user)
+    token:Token
 }
