@@ -5,7 +5,6 @@ export interface IToken{
     id:string
     refreshToken:string
     user:User
-    // accessToken:string
 }
 @Entity()
 export class Token implements IToken{
@@ -20,14 +19,6 @@ export class Token implements IToken{
         }
     )
     refreshToken:string
-    // @ApiProperty({example:"jfjDKdsfg5453gGEgj456Fjgjj554ugjHFFiih5fg3245",description:"User's jwt access token token"})
-    // @Column(
-    //     {
-    //         unique:true,
-    //         nullable:false
-    //     }
-    // )
-    // accessToken:string
     @OneToOne(type=>User,user=>user.token,  { onDelete: 'CASCADE' })
     @JoinColumn()
     user:User

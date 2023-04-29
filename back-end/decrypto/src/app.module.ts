@@ -3,10 +3,9 @@ import { UsersModule } from './users/users.module';
 import { MessagesModule } from './messages/messages.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule } from '@nestjs/config';
-// import { dataSourceOptions } from './db/data-source';
+import { dataSourceOptions } from './db/data-source';
 import { AuthModule } from './auth/auth.module';
 import { ApiTokenCheckMiddleware } from './middleware/auth.middleware';
-import { UsersController } from './users/users.controller';
 
 @Module({
   imports: [UsersModule, MessagesModule, AuthModule,
@@ -15,17 +14,7 @@ import { UsersController } from './users/users.controller';
       envFilePath: ['.env'],
     }),
     TypeOrmModule.forRoot(
-      {
-        type:"postgres",
-        host:process.env.DB_HOST,
-        port: Number(process.env.DB_PORT),
-        username: process.env.DB_USERNAME,
-        password: String(process.env.DB_PASSWORD),
-        database: process.env.DB_DATABASE,
-        synchronize: true,
-        entities: ['dist/**/*.entity.js'],
-        migrations: ['dist/db/migrations/*.js'],
-    }
+    dataSourceOptions
     )],
   controllers: [],
   providers: [],

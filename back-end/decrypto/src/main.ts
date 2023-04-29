@@ -1,13 +1,14 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
-import * as dotenv from 'dotenv';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
-import { ValidationPipe } from '@nestjs/common';
+import { ValidationPipe } from './pipes/validation.pipe';
+import { GlobalExceptionFilter } from './filters/exception.filter';
 
 async function bootstrap() {
   const PORT = process.env.PORT || 3001
   const app = await NestFactory.create(AppModule);
-  app.useGlobalPipes(new ValidationPipe());
+  // app.useGlobalPipes(new ValidationPipe());
+  // app.useGlobalFilters(new GlobalExceptionFilter());
   const config = new DocumentBuilder()
   .setTitle('CryptoApp')
   .setDescription('Encoding & Decoding App')

@@ -57,15 +57,17 @@ export class User implements IUser {
         }
     )
     isActivated:boolean
+    @ApiProperty({example:"82767ba5-3b4c-4257-b536-699933e03bed",description:"Email activation link"})
     @Column({
         nullable:true
     })
     activationLink:string
 
-    @OneToMany(type=>Message,messsage=>messsage.user)
-    messages:Message[]
-
     @ApiProperty({example:"jfjDKdsfg5453gGEgj456Fjgjj554ugjHFFiih5fg3245",description:"User's jwt token"})
     @OneToOne(type=>Token,token=>token.user)
     token:Token
+    
+    @OneToMany(type=>Message,messsage=>messsage.user)
+    messages:Message[]
+
 }

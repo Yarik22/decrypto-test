@@ -6,6 +6,7 @@ import { IsNotEmpty, Length, IsString, IsEnum } from 'class-validator';
 import { Transform } from 'class-transformer';
 
 export class CodeMessageDto extends PartialType(CreateMessageDto) {
+    @ApiProperty({example:"decoded",description:"Message encoding status"})
     @IsEnum(encodingTypes, { message: 'Invalid type of encoding' })
     @Transform(({value}) =>  {
         if(value){
@@ -14,7 +15,7 @@ export class CodeMessageDto extends PartialType(CreateMessageDto) {
         return value
     })
     encodingType:encodingTypes
-    @ApiProperty({example:"Hello, world",description:"User's message"})
+    @ApiProperty({example:"22",description:"User's message key"})
     @IsNotEmpty()
     @Length(0, 50)
     @IsString()

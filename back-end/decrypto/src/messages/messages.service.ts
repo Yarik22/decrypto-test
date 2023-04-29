@@ -5,6 +5,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { UsersService } from 'src/users/users.service';
 import { Repository } from 'typeorm';
 import { Message, encodingTypes } from './entities/message.entity';
+import { UpdateMessageDto } from './dto/update-message.dto copy';
 
 @Injectable()
 export class MessagesService {
@@ -12,6 +13,17 @@ export class MessagesService {
     @InjectRepository(Message) private readonly messageRepository:Repository<Message>,
     private readonly usersService:UsersService
   ){}
+
+  async edit(id: string, data: UpdateMessageDto) {
+    const message = await this.findOne(id)
+    if(message.encodingType!=encodingTypes.DECODED){
+      throw new HttpException("You cannot edit message, whereas it is encoded",HttpStatus.BAD_REQUEST)
+    }
+    message.message=data.message
+    message.name=data.name
+    return await this.messageRepository.save(message)
+  }
+
   async create(data: CreateMessageDto,userId:string) {
     if(userId.length!=36){
       throw new HttpException("The user id is incorrect",HttpStatus.BAD_REQUEST)
@@ -121,7 +133,6 @@ export class MessagesService {
             throw new HttpException("Unhandled exception",HttpStatus.BAD_REQUEST)
       }
     }
-    console.log(message.message)
     return await this.messageRepository.save(message)
   }
 

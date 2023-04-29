@@ -59,19 +59,22 @@ export class AuthService {
         }
         const userData=await this.usersService.findUserByEmail(data.email)
         const tokens = await this.generateTokens({...userData})
+        let token:Token
         if(!user.token){
-            user.token=this.tokenRepository.create(tokens)
+            token=this.tokenRepository.create(tokens)
+            token.user=user
         }
         else{
-            user.token.refreshToken=tokens.refreshToken
+            token = await this.tokenRepository.findOne({where:{id:user.token.id}})
+            token.refreshToken=tokens.refreshToken
         }
-        await this.tokenRepository.save(user.token)
+        await this.tokenRepository.save(token)
         return tokens
     }
 
     async validateAccessToken(token: string) {
         try {
-            const userData: User = await this.jwtService.verify(token, { secret: "ACCESS_SECRET_KEY" })
+            const userData: User = await this.jwtService.verify(token, { secret: process.env.JWT_ACCESS })
             if (!userData.isActivated) {
                 throw new HttpException(`User is unauthorized`, HttpStatus.UNAUTHORIZED)
             }

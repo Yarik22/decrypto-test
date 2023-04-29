@@ -26,12 +26,14 @@ export class Message implements IMessage {
     @ApiProperty({example:"Hello, world",description:"User's message"})
     @Column()
     name:string
+    @ApiProperty({example:"decoded",description:"Message encoding status"})
     @Column({
         type: "enum",
         enum: encodingTypes,
         default: encodingTypes.DECODED,
     })
     encodingType:encodingTypes
+    @ApiProperty({example:"22",description:"User's message key"})
     @Column({
         nullable:true
     })

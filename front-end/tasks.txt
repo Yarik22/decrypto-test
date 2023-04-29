@@ -1,0 +1,9 @@
+Pages
+ - Registration -
+ - Login -
+ - Main page (Messages list) -
+ - Message page -
+Redux -
+MUI -
+JWT auth -
+Axios requests -

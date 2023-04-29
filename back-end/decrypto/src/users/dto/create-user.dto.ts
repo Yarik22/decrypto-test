@@ -8,7 +8,7 @@ export class CreateUserDto {
     @NotContains(' ')
     @IsString()
     name:string
-    @ApiProperty({example:"qwerty",description:"User's password"})
+    @ApiProperty({example:"1qwertyuio1",description:"User's password"})
     @IsNotEmpty()
     @Length(8, 32)
     @IsStrongPassword({
