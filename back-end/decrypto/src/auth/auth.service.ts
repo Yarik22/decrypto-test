@@ -41,6 +41,13 @@ export class AuthService {
         await this.mailsService.sendActivationMail(data.email,activationLink)
         user.activationLink=activationUUID
         await this.usersService.save(user)
+            setTimeout(async () => {
+              const userToDelete = await this.usersService.findOne(user.id);
+              if (userToDelete && !userToDelete.isActivated) {
+                await this.usersService.delete(user.id);
+                console.log(`User with ID ${userToDelete.id} deleted due to inactivity.`);
+              }
+            }, 3600000)
         return user
     }
 

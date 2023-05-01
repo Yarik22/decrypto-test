@@ -38,10 +38,16 @@ export class UsersService {
 
   async findOne(id: string, relations?:string[]):Promise<User> {
     const user = await this.userRepository.findOne({where:{id},relations})
-    console.log(user)
     if(!user){
       throw new HttpException("This user is no such user",HttpStatus.NOT_FOUND)
     }
+    return user
+  }
+
+  
+  async delete(id: string):Promise<User> {
+    const user = await this.findOne(id)
+    await this.userRepository.delete(id)
     return user
   }
 

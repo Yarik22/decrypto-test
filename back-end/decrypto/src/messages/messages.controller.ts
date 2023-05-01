@@ -22,6 +22,7 @@ export class MessagesController {
   @ApiResponse({type:[Message]})  
   @Get()
   findAll(@Param('userId') userId: string) {
+    console.log("messagesssssssssssss")
     return this.messagesService.findAll(userId);
   }
 

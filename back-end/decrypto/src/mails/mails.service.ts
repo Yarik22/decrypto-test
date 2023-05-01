@@ -5,8 +5,10 @@ import { MailOptions } from 'nodemailer/lib/json-transport';
 
 @Injectable()
 export class MailsService {
-    async sendActivationMail(email,activationLink):Promise<void>{
-        console.log(process.env.SMPT_HOST,process.env.SMPT_PORT,process.env.SMPT_USER,process.env.SMPT_PASSWORD)
+    async sendActivationMail(email:string,activationLink):Promise<void>{
+        // console.log(process.env.SMPT_HOST,process.env.SMPT_PORT,process.env.SMPT_USER,process.env.SMPT_PASSWORD)
+        console.log(email)
+        console.log(activationLink)
         const transporter=nodemailer.createTransport({
             service:'gmail',
             host:process.env.SMPT_HOST,
