@@ -1,12 +1,8 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import axios from "../axios";
-import jwt_decode from 'jwt-decode';
-import User from "../interfaces/User";
 import MessageComponent from "../components/Message";
 import { addMessage, fetchUserMessages } from "../redux/slices/messages";
-import store, { AppDispatch, RootState } from "../redux/store";
-import { MessagesState } from "../redux/slices/messages";
+import { AppDispatch, RootState } from "../redux/store";
 import { Box, Button, CircularProgress, Container } from '@mui/material';
 
 const MessageList = () => {
@@ -27,9 +23,9 @@ const MessageList = () => {
           <MessageComponent
             key={message.id}
             id={message.id}
-            name={message.name}
             message={message.message}
             encodingType={message.encodingType}
+            decodingKey={message.decodingKey}
           />
         ))}
         <Button size="large" sx={{ marginTop: '10px' }} variant="contained" color="primary" onClick={() => dispatch(addMessage())}>

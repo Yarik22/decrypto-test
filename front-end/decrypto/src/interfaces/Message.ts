@@ -9,4 +9,10 @@ export default interface Message{
 export interface CreateMessage{
     message: string;
     name: string;
+    decodingKey:string
+}
+
+export interface PatchMessage{
+    message: string;
+    decodingKey: string;
 }

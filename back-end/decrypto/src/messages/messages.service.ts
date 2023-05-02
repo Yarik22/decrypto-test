@@ -19,6 +19,7 @@ export class MessagesService {
     if(message.encodingType!=encodingTypes.DECODED){
       throw new HttpException("You cannot edit message, whereas it is encoded",HttpStatus.BAD_REQUEST)
     }
+    message.decodingKey=data.decodingKey
     message.message=data.message
     message.name=data.name
     return await this.messageRepository.save(message)
@@ -103,14 +104,12 @@ export class MessagesService {
         case encodingTypes.CAESAR:
           if(!isNaN(+data.decodingKey)){
             message.message = this.encodeCaesar(message.message,+data.decodingKey)
-            message.encodingType=encodingTypes.CAESAR
             break
           }
           throw new HttpException("Incorrect key format (must be a number)",HttpStatus.CONFLICT)
         case encodingTypes.XOR:
           const key = data.decodingKey
           message.message = this.encodeDecodeXOR(message.message,key)
-          message.encodingType=encodingTypes.XOR
           break
         default:
           throw new HttpException("Unhandled exception",HttpStatus.BAD_REQUEST)
@@ -120,20 +119,18 @@ export class MessagesService {
         case encodingTypes.CAESAR:
           if(!isNaN(+data.decodingKey)){
             message.message = this.decodeCaesar(message.message,+data.decodingKey)
-            message.encodingType=encodingTypes.DECODED
             break
           }
           throw new HttpException("Incorrect key format (must be a number)",HttpStatus.CONFLICT)
           case encodingTypes.XOR:
             const key = data.decodingKey
             message.message = this.encodeDecodeXOR(message.message,key)
-            message.encodingType=encodingTypes.DECODED
             break
           default:
             throw new HttpException("Unhandled exception",HttpStatus.BAD_REQUEST)
       }
     }
-    return await this.messageRepository.save(message)
+    return message
   }
 
   async remove(id: string) {

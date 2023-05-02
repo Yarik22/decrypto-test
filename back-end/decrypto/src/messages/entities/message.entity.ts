@@ -35,7 +35,7 @@ export class Message implements IMessage {
     encodingType:encodingTypes
     @ApiProperty({example:"22",description:"User's message key"})
     @Column({
-        nullable:true
+        default:"12345"
     })
     decodingKey:string
     @ManyToOne(type=>User,user=>user.messages,{ onDelete: 'CASCADE' })

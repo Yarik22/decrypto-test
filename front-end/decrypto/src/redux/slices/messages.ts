@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
-import Message, { CreateMessage } from "../../interfaces/Message";
+import Message, { CreateMessage, PatchMessage } from "../../interfaces/Message";
 import axios from "../../axios";
 import jwt_decode from 'jwt-decode';
 import User from "../../interfaces/User";
@@ -19,11 +19,33 @@ async ():Promise<Message[]> =>{
 }
 )
 
+export const selectMessageById = createAsyncThunk('messages/fetchMessage',
+async (id:string):Promise<Message> =>{
+  const {data} = await axios.get(`/users/${getUserId(localStorage.getItem('authToken'))}/messages/${id}`)
+  return data
+}
+)
+
+export const saveMessageById = createAsyncThunk('messages/fetchMessage',
+async (id:string,message):Promise<Message> =>{
+  const {data} = await axios.get(`/users/${getUserId(localStorage.getItem('authToken'))}/messages/${id}`,message)
+  return data
+}
+)
+
+export const patchMessageById = createAsyncThunk('messages/patchMessage',
+async (id:string,message):Promise<Message> =>{
+  const {data} = await axios.patch(`/users/${getUserId(localStorage.getItem('authToken'))}/messages/${id}`,message)
+  return data
+}
+)
+
 export const addMessage = createAsyncThunk(
   'messages/addMessage',
   async (newMessage: CreateMessage = {
     message: "text",
-    name: "New message"
+    name: "New message",
+    decodingKey:"12345"
   }):Promise<Message> => {
     const response = await axios.post(`/users/${getUserId(localStorage.getItem('authToken'))}/messages`, newMessage);
     return response.data;
@@ -45,7 +67,7 @@ export interface MessagesState {
 
 const initialState: MessagesState = {
     items : [],
-    loading: false
+    loading: false,
 }
 
 const messagesSlice = createSlice({
@@ -66,7 +88,7 @@ const messagesSlice = createSlice({
     })
     .addCase(addMessage.fulfilled, (state, action: PayloadAction<Message>) => {
       state.items.push(action.payload);
-    });
+    })
     
   }
 })

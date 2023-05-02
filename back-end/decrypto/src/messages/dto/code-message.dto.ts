@@ -20,4 +20,5 @@ export class CodeMessageDto extends PartialType(CreateMessageDto) {
     @Length(0, 50)
     @IsString()
     decodingKey:string
+    
 }

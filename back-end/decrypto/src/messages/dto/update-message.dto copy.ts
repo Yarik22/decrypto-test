@@ -16,4 +16,9 @@ export class UpdateMessageDto extends PartialType(CreateMessageDto) {
     @Length(0, 50)
     @IsString()
     name:string
+    @ApiProperty({example:"22",description:"User's message key"})
+    @IsNotEmpty()
+    @Length(0, 50)
+    @IsString()
+    decodingKey:string
 }

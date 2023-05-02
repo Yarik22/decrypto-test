@@ -25,7 +25,7 @@ export class AuthController {
   async login(@Body() data:LoginUserDto, @Res() response: Response){
     const tokens = await this.authService.loginUser(data)
     try{
-      response.cookie('refreshToken', tokens.refreshToken, { maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: true })
+      response.cookie('refreshToken', tokens.refreshToken, { maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: false })
       response.setHeader('Authorization', `Bearer ${tokens.accessToken}`)
       response.setHeader('Cookie',`refreshToken=${tokens.refreshToken}`)
       return response.status(200).send(null)
@@ -58,7 +58,7 @@ export class AuthController {
   async activate(@Param("link")link:string,@Res()response:Response){
     const tokens = await this.authService.activateUser(link)
     try {
-        response.cookie('refreshToken', tokens.refreshToken, { maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: true })
+        response.cookie('refreshToken', tokens.refreshToken, { maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: false })
         return response.redirect(process.env.CLIENT_URL)
       } catch (e) {
         console.log(e)

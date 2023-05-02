@@ -18,7 +18,6 @@ function App() {
       <Layout>
       <Routes>
         <Route path='/messages' element={<MessageList/>}/>
-        <Route path='/messages/:id/edit' element={<MessageEdit/>}/>
       </Routes>
       </Layout>
     </AuthWrapper>
