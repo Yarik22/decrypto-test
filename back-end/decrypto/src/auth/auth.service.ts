@@ -79,7 +79,7 @@ export class AuthService {
         return tokens
     }
 
-    async validateAccessToken(token: string) {
+    async validateAccessToken(token: string):Promise<User> {
         try {
             const userData: User = await this.jwtService.verify(token, { secret: process.env.JWT_ACCESS })
             if (!userData.isActivated) {
@@ -108,8 +108,10 @@ export class AuthService {
     }
 
 
-    async logoutUser(refreshToken: string) {
-        const token = await this.tokenRepository.findOne({where:{refreshToken}})
+    async logoutUser(id: string) {
+        const user = await this.usersService.findOne(id)
+        const token = await this.tokenRepository.findOne({where:{user}})
+        console.log(token)
         await this.removeToken(token.id)
         return token
 

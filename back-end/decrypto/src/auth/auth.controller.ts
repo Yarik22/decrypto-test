@@ -25,6 +25,7 @@ export class AuthController {
   async login(@Body() data:LoginUserDto, @Res() response: Response){
     const tokens = await this.authService.loginUser(data)
     try{
+      response.cookie('refreshToken', tokens.refreshToken, { maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: true })
       response.setHeader('Authorization', `Bearer ${tokens.accessToken}`)
       response.setHeader('Cookie',`refreshToken=${tokens.refreshToken}`)
       return response.status(200).send(null)
@@ -35,14 +36,17 @@ export class AuthController {
   }
 
   @ApiOperation({summary:"Sign out the user"})
+  @Header('Access-Control-Expose-Headers', 'Authorization')
   @ApiResponse({type:null})  
   @Post("logout")
   async logout(@Req() request:Request,@Res() response: Response){
-      const refreshToken=request.headers.cookie
-      if(!refreshToken){
+      const auth:string=request.headers.authorization
+      const authToken:string = auth.split(' ')[1]
+      const user = await this.authService.validateAccessToken(authToken)
+      if(!user){
         throw new HttpException(`You are already logout`,HttpStatus.BAD_REQUEST)
       }
-      const token = await this.authService.logoutUser(refreshToken.split('=')[1])
+      await this.authService.logoutUser(user.id)
       response.setHeader('Authorization', null);
       response.clearCookie('refreshToken')
       return response.status(200).json(null)

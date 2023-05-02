@@ -18,14 +18,14 @@ const LoginPage = () => {
       axios.post(`${env.API_URL}/auth/login`, data)
       .then(response => {
         const authToken:string = response.headers.authorization;
+        console.log(authToken)
         localStorage.setItem('authToken', authToken.split(' ')[1]);
         document.cookie = response.headers.cookie
-        navigate('/home')
+        window.location.replace('/messages');
       })
       .catch(error => {
         console.error(error);
-      });
-    
+      })
     }
   return (
     <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>

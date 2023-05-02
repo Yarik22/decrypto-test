@@ -14,12 +14,10 @@ export class ApiTokenCheckMiddleware implements NestMiddleware{
                 return next(new HttpException(`User is unauthorized`,HttpStatus.UNAUTHORIZED))
             }
             const accessToken = authHeader.split(' ')[1]
-            // console.log(accessToken)
             if(!accessToken){
                 return next(new HttpException(`User is unauthorized`,HttpStatus.UNAUTHORIZED))
             }
             const userDara = await this.authService.validateAccessToken(accessToken)
-            // console.log(userDara)
             if(!userDara){
                 return next(new HttpException(`User is unauthorized`,HttpStatus.UNAUTHORIZED))
             }

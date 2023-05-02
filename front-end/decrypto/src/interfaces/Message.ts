@@ -5,3 +5,8 @@ export default interface Message{
     encodingType: string;
     decodingKey: string;
 }
+
+export interface CreateMessage{
+    message: string;
+    name: string;
+}

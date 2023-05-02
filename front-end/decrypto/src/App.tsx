@@ -2,8 +2,8 @@ import { Route, Routes } from 'react-router-dom';
 import LoginPage from './pages/Auth/Login';
 import RegisterPage from './pages/Auth/Register';
 import AuthWrapper from './components/wrappers/AuthWrapper';
-import Home from './pages/Home';
-import { Provider } from 'react-redux';
+import MessageList from './pages/MessageList';
+import Layout from './components/wrappers/Layout';
 
 
 function App() {
@@ -15,9 +15,12 @@ function App() {
       <Route path='/register' element={RegisterPage()}/>
     </Routes>
     <AuthWrapper>
+      <Layout>
       <Routes>
-        <Route path='/home' element={Home()}/>
+        <Route path='/messages' element={<MessageList/>}/>
+        <Route path='/messages/:id/edit' element={<MessageEdit/>}/>
       </Routes>
+      </Layout>
     </AuthWrapper>
     </>
   );
