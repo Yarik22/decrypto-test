@@ -5,12 +5,6 @@ export class LoginUserDto {
     @ApiProperty({example:"qwerty",description:"User's password"})
     @IsNotEmpty()
     @Length(8, 32)
-    @IsStrongPassword({
-        minNumbers:6,
-        minSymbols:0,
-        minLowercase:1,
-        minUppercase:1
-    })
     @NotContains(' ')
     @IsString()
     password:string
@@ -18,6 +12,7 @@ export class LoginUserDto {
     @IsNotEmpty()
     @IsEmail()
     @NotContains(' ')
+    @Length(8, 100)
     @IsString()
     email:string
 }

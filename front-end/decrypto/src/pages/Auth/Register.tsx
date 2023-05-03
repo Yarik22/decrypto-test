@@ -27,10 +27,10 @@ const RegisterPage = () => {
         <Typography variant="h4" sx={{ textAlign: 'center', mb: 2 }}>Register</Typography>
         <form onSubmit={handleSubmit}>
           <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-            <TextField label="Username" variant="outlined" value={username} onChange={(e) => setUsername(e.target.value)} />
-            <TextField label="Email" variant="outlined" type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
-            <TextField label="Password" variant="outlined" type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
-            <Button type="submit" variant="contained" sx={{ mt: 2 }}>Register</Button>
+            <TextField label="Username" variant="outlined" value={username} error={username.length<2} onChange={(e) => setUsername(e.target.value)} />
+            <TextField label="Email" variant="outlined" type="email" value={email} error={email.length<8} onChange={(e) => setEmail(e.target.value)} />
+            <TextField label="Password" variant="outlined" type="password" value={password} error={password.length<8} onChange={(e) => setPassword(e.target.value)} />
+            <Button type="submit" variant="contained" disabled={password.length<8||email.length<8||username.length<2} sx={{ mt: 2 }}>Register</Button>
           </Box>
         </form>
         <Box sx={{ mt: 2, textAlign: 'center' }}>
